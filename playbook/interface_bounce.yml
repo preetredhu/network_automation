@@ -8,7 +8,7 @@
     - name: Run "no shutdown" on interface Fa2/0
       ios_config:
         lines:
-          - no shutdown
+          - shutdown
         parents:
           - interface Fa2/0
 
