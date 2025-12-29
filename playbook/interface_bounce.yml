@@ -1,0 +1,23 @@
+---
+- name: Gather interface information
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Run "no shutdown" on interface Fa2/0
+      ios_config:
+        lines:
+          - no shutdown
+        parents:
+          - interface Fa2/0
+
+    - name: Run "show interface description"
+      ios_command:
+        commands:
+          - show interface description
+      register: output
+
+    - name: Display interface description
+      debug:
+        msg: "{{ output.stdout[0] }}"

@@ -1,0 +1,16 @@
+---
+- name: Gather Cisco router version
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Run "show version" command
+      ios_command:
+        commands:
+          - show version
+      register: version_output
+
+    - name: Display router version
+      debug:
+        var: version_output.stdout[0]
