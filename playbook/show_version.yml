@@ -1,6 +1,6 @@
 ---
 - name: Gather Cisco router version
-  hosts: cisco_devices
+  hosts: routers
   gather_facts: no
   connection: network_cli
 

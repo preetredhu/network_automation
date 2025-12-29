@@ -1,0 +1,21 @@
+---
+- name: Configure NTP servers on routers
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Configure NTP servers
+      ios_command:
+        commands:
+          - configure terminal
+          - ntp server 192.168.100.13
+          - ntp server 192.168.100.14
+          - end
+          - write memory
+          - Show running-config | in ntp
+      register: ntp_output
+
+    - name: Show results
+      debug:
+        msg: "{{ ntp_output }}"
