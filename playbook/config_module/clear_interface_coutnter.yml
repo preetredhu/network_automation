@@ -1,0 +1,25 @@
+---
+- name: Clear the counters over an interface
+  hosts: cisco_devices
+  gather_facts: false
+
+  tasks:
+    - name: Run command to clear counters
+      cisco.ios.ios_command:
+        commands:
+          - "clear counters fastEthernet 0/0\n"
+      register: command_output
+
+    - name: Print clear counters output
+      ansible.builtin.debug:
+        msg: "{{ command_output.stdout[0] }}"
+
+    - name: Show interface status after clear counters
+      cisco.ios.ios_command:
+        commands:
+          - show interfaces fastEthernet 0/0
+      register: output
+
+    - name: Print interface status
+      ansible.builtin.debug:
+        msg: "{{ output.stdout[0] }}"

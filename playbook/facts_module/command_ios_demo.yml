@@ -1,0 +1,21 @@
+---
+- name: Run the ios_command and test
+  hosts: cisco_devices
+  gather_facts: false
+
+  tasks:
+    - name: Run commands and wait for conditions
+      ios_command:
+        commands:
+        - show ip interface brief
+        - show version 
+      register: show_command_output
+    
+    - name: Print show version
+      ansible.builtin.debug:
+        msg: "{{ show_command_output.stdout_lines[0] }}"
+
+    - name: Print show ip int brief
+      ansible.builtin.debug:
+        msg: "{{ show_command_output.stdout_lines[1] }}"
+
