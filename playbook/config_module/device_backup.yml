@@ -1,0 +1,22 @@
+---
+- name: Backup Cisco device configuration
+  hosts: cisco_devices
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: Run command to get running config
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: running_config
+
+    - name: Ensure backup directory exists
+      ansible.builtin.file:
+        path: "/home/preet/preet_ansible/device_backup"
+        state: directory
+
+    - name: Save configuration to backup directory
+      ansible.builtin.copy:
+        content: "{{ running_config.stdout[0] }}"
+        dest: "/home/preet/preet_ansible/device_backup/{{ inventory_hostname }}-running-config.txt"
