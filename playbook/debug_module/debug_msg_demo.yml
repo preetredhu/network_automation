@@ -1,0 +1,19 @@
+---
+- name: debug module demo
+  hosts: cisco_devices
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Gather IOS facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - all
+
+    - name: Display router hostname
+      ansible.builtin.debug:
+        msg: >
+         - device hostname is : "{{ ansible_net_hostname }}"
+         - device model is : "{{ ansible_net_model }}"
+         - device serial no is : "{{ ansible_net_serialnum }}"
+         - device running os is : "{{ ansible_net_version }}"
