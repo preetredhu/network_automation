@@ -1,0 +1,24 @@
+---
+- name: Configure Cisco interface
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Configure Fa2/0 with IP and enable
+      ios_config:
+        parents:
+          - interface FastEthernet2/0
+        lines:
+          - ip address 192.168.9.1 255.255.255.0
+          - no shutdown
+
+    - name: Verify interface status
+      ios_command:
+        commands:
+          - show ip interface brief
+      register: output
+
+    - name: Display interface status
+      debug:
+        msg: "{{ output.stdout[0] }}"
