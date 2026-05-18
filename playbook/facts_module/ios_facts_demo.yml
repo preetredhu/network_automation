@@ -1,5 +1,7 @@
-- hosts: cisco_devices
+- hosts: routers
   gather_facts: no
+  vars_files:
+   - routers.yml
   tasks:
     - name: Gather IOS facts
       cisco.ios.ios_facts:
@@ -13,5 +15,3 @@
     #- name: Print IOS hostname
      # ansible.builtin.debug:
       #  var: ansible_net_hostname
-
-      

@@ -1,0 +1,33 @@
+---
+- name: Standardize NTP Configuration
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Remove existing NTP servers
+      ios_config:
+        lines:
+          - no ntp server 192.168.100.10
+          - no ntp server 192.168.100.11
+
+    - name: Configure standard NTP servers
+      ios_config:
+        lines:
+          - ntp server 192.168.100.10 prefer
+          - ntp server 192.168.100.11
+
+    - name: Set timezone to UTC
+      ios_config:
+        lines:
+          - clock timezone UTC 0
+
+    - name: Verify NTP synchronization
+      ios_command:
+        commands:
+          - show ntp status
+      register: ntp_status
+
+    - name: Report NTP status
+      debug:
+        msg: "NTP synchronized: {{ 'Clock is synchronized' in ntp_status.stdout[0] }}"

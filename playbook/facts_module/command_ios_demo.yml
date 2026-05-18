@@ -1,6 +1,6 @@
 ---
 - name: Run the ios_command and test
-  hosts: cisco_devices
+  hosts: routers
   gather_facts: false
 
   tasks:

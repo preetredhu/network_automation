@@ -2,16 +2,16 @@
 - name: Gather Cisco router version
   hosts: routers
   gather_facts: no
-  vars_files:        
-    - routers.yml
+  #vars_files:
+   # - routers.yml   # <— pulls in your variables
 
   tasks:
     - name: Run "show version" command
       ios_command:
         commands:
           - show version
-      register: version_output
+      register: output
 
-    - name: Display router version
+    - name: Display version output
       debug:
-        var: version_output.stdout[0]
+        msg: "{{ output.stdout[0] }}"

@@ -1,10 +1,14 @@
-[cisco_devices:children]
-routers
+#[cisco_devices:children]
 [routers]
 R1 ansible_host=192.168.175.11
+R2 ansible_host=192.168.175.12
 
-[routers:vars]
-ansible_user=admin
-ansible_password=admin
-ansible_connection=network_cli
-ansible_network_os=ios
+#[routers:vars]
+#ansible_user=admin
+#ansible_password=admin
+#ansible_connection=network_cli
+#ansible_network_os=ios
+
+ntp_servers:
+  - 192.168.100.10
+  - 192.168.100.11
